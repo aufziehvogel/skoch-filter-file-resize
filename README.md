@@ -8,8 +8,25 @@ Resize utility for the Zend Framework
 Installation
 ------------
 
-* Download the folder library/Skoch from github and add it to your library files
+* Download the folder Skoch from github and add it to your library files
 * Add `autoloaderNamespaces[] = "Skoch_"` to your `application.ini`
+
+### OR with Composer
+
+Add to your composer.json
+(we need to change repository url from josecoelho to aufziehvogel after/if Pull request be Accepted)
+
+```
+    "repositories": [
+        {
+            "url": "https://github.com/josecoelho/skoch-filter-file-resize.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "aufziehvogel/skoch-filter-file-resize": "dev-master",
+    },
+```
 
 
 Examples

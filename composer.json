@@ -1,0 +1,40 @@
+{
+   "name":"aufziehvogel/skoch-filter-file-resize",
+   "description":"Zend_Form filters for image resizing",
+   "keywords":[
+      "zend",
+      "zend form",
+      "zend form filters",
+      "image resize",
+      "zend form file resize"
+   ],
+   "type":"library",
+   "homepage":"http://eliteinformatiker.de/2011/09/02/thumbnails-upload-and-resize-images-with-zend_form_element_file/",
+   "version":"dev-master",
+   "license":"MIT",
+   "authors":[
+      {
+         "name":"Stefan Koch",
+         "email":"cct@stefan-koch.name",
+         "homepage":"http://eliteinformatiker.de/",
+         "role":"Developer"
+      },
+      {
+         "name":"José Coelho",
+         "email":"contato@josecoelho.com",
+         "homepage":"http://josecoelho.com",
+         "role":"Contributor"
+      }
+   ],
+   "require":{
+      "php":">=5.2.4"
+    },
+    "autoload":{
+        "psr-0":{
+            "Skoch_":""
+        }
+    },
+    "include-path": [
+       ""
+    ]
+}
