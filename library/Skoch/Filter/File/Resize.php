@@ -39,7 +39,8 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
      * height, keepRatio, keepSmaller (do not resize image if it is smaller than
      * expected), directory (save thumbnail to another directory),
      * adapter (the name or an instance of the desired adapter),
-     * jpegQuality (0 - 100 only for jpeg image)
+     * jpegQuality (0 - 100 only for jpeg image),
+     * pngQuality (0 - 9 only for png image)
      * @return Skoch_Filter_File_Resize An instance of this filter
      */
     public function __construct($options = array())
