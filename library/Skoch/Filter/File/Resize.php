@@ -28,6 +28,7 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
     protected $_directory = null;
     protected $_cropToFit = false;
     protected $_follow = false;
+    protected $_jpegQuality = 75;
     protected $_adapter = 'Skoch_Filter_File_Resize_Adapter_Gd';
  
     /**
@@ -36,7 +37,8 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
      * @param Zend_Config|array $options Some options. You may specify: width, 
      * height, keepRatio, keepSmaller (do not resize image if it is smaller than
      * expected), directory (save thumbnail to another directory),
-     * adapter (the name or an instance of the desired adapter)
+     * adapter (the name or an instance of the desired adapter),
+     * jpegQuality (0 - 100 only for jpeg image)
      * @return Skoch_Filter_File_Resize An instance of this filter
      */
     public function __construct($options = array())
@@ -74,6 +76,15 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
         if (isset($options['follow'])) {
             $this->_follow = $options['follow'];
         }
+        if (isset($options['jpegQuality']) && !is_numeric($options['jpegQuality'])) {
+            require_once 'Zend/Filter/Exception.php';
+            throw new Zend_Filter_Exception('Jpeg quality parameter must be numeric');
+        } elseif ($options['jpegQuality'] < 0 || $options['jpegQuality'] > 100) {
+            require_once 'Zend/Filter/Exception.php';
+            throw new Zend_Filter_Exception('Jpeg quality parameter must be between 0 and 100');
+        } elseif (isset($options['jpegQuality'])) {
+            $this->_jpegQuality = $options['jpegQuality'];
+        }
         if (isset($options['adapter'])) {
             if ($options['adapter'] instanceof Skoch_Filter_File_Resize_Adapter_Abstract) {
                 $this->_adapter = $options['adapter'];
@@ -88,7 +99,7 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
  
         $this->_prepareAdapter();
     }
- 
+    
     /**
      * Instantiate the adapter if it is not already an instance
      *
@@ -121,7 +132,7 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
  
         $target = $this->_adapter->resize($this->_width, $this->_height,
             $this->_keepRatio, $value, $target, $this->_keepSmaller,
-            $this->_cropToFit);
+            $this->_cropToFit, $this->_jpegQuality);
         return $this->_follow ? $target : $value;
     }
 }
