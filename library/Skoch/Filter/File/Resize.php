@@ -29,6 +29,7 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
     protected $_cropToFit = false;
     protected $_follow = false;
     protected $_jpegQuality = 75;
+    protected $_pngQuality = 6;
     protected $_adapter = 'Skoch_Filter_File_Resize_Adapter_Gd';
  
     /**
@@ -85,6 +86,15 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
         } elseif (isset($options['jpegQuality'])) {
             $this->_jpegQuality = $options['jpegQuality'];
         }
+        if (isset($options['pngQuality']) && !is_numeric($options['pngQuality'])) {
+            require_once 'Zend/Filter/Exception.php';
+            throw new \Zend_Filter_Exception('Png quality parameter must be numeric');
+        } elseif ($options['pngQuality'] < 0 || $options['pngQuality'] > 9) {
+            require_once 'Zend/Filter/Exception.php';
+            throw new \Zend_Filter_Exception('Png quality parameter must be between 0 and 9');
+        } elseif (isset($options['pngQuality'])) {
+            $this->_pngQuality = $options['pngQuality'];
+        }
         if (isset($options['adapter'])) {
             if ($options['adapter'] instanceof Skoch_Filter_File_Resize_Adapter_Abstract) {
                 $this->_adapter = $options['adapter'];
@@ -132,7 +142,7 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
  
         $target = $this->_adapter->resize($this->_width, $this->_height,
             $this->_keepRatio, $value, $target, $this->_keepSmaller,
-            $this->_cropToFit, $this->_jpegQuality);
+            $this->_cropToFit, $this->_jpegQuality, $this->_pngQuality);
         return $this->_follow ? $target : $value;
     }
 }
