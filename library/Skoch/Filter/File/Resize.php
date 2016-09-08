@@ -30,6 +30,7 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
     protected $_follow = false;
     protected $_jpegQuality = 75;
     protected $_pngQuality = 6;
+    protected $_png8Bits = false;
     protected $_adapter = 'Skoch_Filter_File_Resize_Adapter_Gd';
  
     /**
@@ -40,7 +41,8 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
      * expected), directory (save thumbnail to another directory),
      * adapter (the name or an instance of the desired adapter),
      * jpegQuality (0 - 100 only for jpeg image),
-     * pngQuality (0 - 9 only for png image)
+     * pngQuality (0 - 9 only for png image),
+     * png8Bits (true/false force png to 8bit)
      * @return Skoch_Filter_File_Resize An instance of this filter
      */
     public function __construct($options = array())
@@ -107,6 +109,9 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
                 $this->_adapter = $name;
             }
         }
+        if (isset($options['png8Bits'])) {
+            $this->_png8Bits = $options['png8Bits'];
+        }
  
         $this->_prepareAdapter();
     }
@@ -143,7 +148,7 @@ class Skoch_Filter_File_Resize implements Zend_Filter_Interface
  
         $target = $this->_adapter->resize($this->_width, $this->_height,
             $this->_keepRatio, $value, $target, $this->_keepSmaller,
-            $this->_cropToFit, $this->_jpegQuality, $this->_pngQuality);
+            $this->_cropToFit, $this->_jpegQuality, $this->_pngQuality, $this->_png8Bits);
         return $this->_follow ? $target : $value;
     }
 }
