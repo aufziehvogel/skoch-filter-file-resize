@@ -19,7 +19,7 @@ require_once 'Skoch/Filter/File/Resize/Adapter/Abstract.php';
 class Skoch_Filter_File_Resize_Adapter_Gd extends
     Skoch_Filter_File_Resize_Adapter_Abstract
 {
-    public function resize($width, $height, $keepRatio, $file, $target, $keepSmaller = true, $cropToFit = false, $jpegQuality = 75, $pngQuality = 6)
+    public function resize($width, $height, $keepRatio, $file, $target, $keepSmaller = true, $cropToFit = false, $jpegQuality = 75, $pngQuality = 6, $png8Bits = false)
     {
         list($oldWidth, $oldHeight, $type) = getimagesize($file);
  
@@ -48,7 +48,11 @@ class Skoch_Filter_File_Resize_Adapter_Gd extends
             $height = $oldHeight;
         }
  
-        $thumb = imagecreatetruecolor($width, $height);
+        if ($type == IMAGETYPE_GIF || ($type == IMAGETYPE_PNG && $png8Bits === true)) {
+            $thumb = imagecreate($width, $height);
+        } else {
+            $thumb = imagecreatetruecolor($width, $height);
+        }
  
         imagealphablending($thumb, false);
         imagesavealpha($thumb, true);
@@ -66,6 +70,8 @@ class Skoch_Filter_File_Resize_Adapter_Gd extends
                 imagegif($thumb, $target);
                 break;
         }
+        imagedestroy($thumb);
+        
         return $target;
     }
 }
