@@ -77,6 +77,9 @@ You may specify different options for the Resize Filter:
 * cropToFit: If the image dimensions do not match the given image, crop off some borders
 * directory: Set a directory to store the thumbnail in. If nothing is given, the normal image will be overwritten.
 * adapter: The adapter to use for resizing. You may specify a string or an instance of an adapter.
+* jpgQuality: Value of ratio compression for JPG image.
+* pngQuality: Value of ratio compression for JPG image.
+* png8Bits: Force all PNG to be converted in 8bit mode.
 
 
 Further information
